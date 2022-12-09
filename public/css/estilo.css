@@ -1,0 +1,13 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.bg-nb-pink{
+    background: #ffb7b7;
+}
+
+.bg-nb-lightgreen{
+    background: #a6fc93;
+}
