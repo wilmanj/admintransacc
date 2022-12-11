@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.9"
 
 services:
   nginx:
@@ -15,30 +15,21 @@ services:
     networks:
       - networkapp
 
-  myadmin:
-    image: phpmyadmin
-    container_name: phpmyadmin
-    restart: always
-    depends_on:
-      - mysql
-    ports:
-      - "81:80"
-
   mysql:
-    image: mysql:8.0.13
+    image: mysql:latest
     container_name: mysql
-    restart: always    
-    command: --default-authentication-plugin=mysql_native_password
+    restart: always
     environment:
-      MYSQL_DATABASE: resumen_ingreso
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: 'resumen_ingreso'
+      MYSQL_USER: 'userlrvbd'
+      MYSQL_PASSWORD: 'passusuario'
+      MYSQL_ROOT_PASSWORD: 'desarrollos'
     ports:
       - 3306:3306
     volumes:
-      - dbdatalaravel:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
     networks:
       - networkapp
-
   apptransac:
     build:
       args:
@@ -48,6 +39,18 @@ services:
       dockerfile: ./Dockerfile
     container_name: apptransac
     working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    networks:
+      - networkapp
+
+  php:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: php
+    ports:
+      - 9000:80
     volumes:
       - .:/var/www/html
     networks:
